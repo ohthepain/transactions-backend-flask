@@ -1,0 +1,12 @@
+{
+  "name": "backend-boilerplate-fastapi",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd app && pip3 install -r requirements.txt",
+    "start": "cd app && export FLASK_APP=main.py && python3 -m flask run",
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^9.7.0"
+  }
+}
