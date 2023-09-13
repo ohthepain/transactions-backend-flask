@@ -11,15 +11,10 @@ class TransactionList:
         print('ctor: access singleton instance of %s' % (__name__))
         return cls.instance
 
-    def AddTransaction(self, account_id, amount):
-        try:
-            uuid.UUID(account_id)
-            if amount == 0:
-                raise Exception("Transaction amount cannot be 0")
-            self.transactions.append(Transaction(account_id, amount))
-            return True
-        except ValueError:
-            return False
+    def AddTransaction(self, transaction):
+        assert(transaction.is_valid())
+        self.transactions.append(transaction)
+        return True
 
     def GetTransaction(self, transaction_id):
         if not uuid.UUID(transaction_id):
@@ -28,5 +23,7 @@ class TransactionList:
             if transaction.transaction_id == transaction_id:
                 return transaction
 
+    def GetTransactions(self):
+        return self.transactions
+
 TransactionList()
-TransactionList().AddTransaction('566944be-2dab-460b-b3ed-eeeebd8c5618', 10)

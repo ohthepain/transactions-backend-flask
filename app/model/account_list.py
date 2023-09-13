@@ -14,8 +14,6 @@ class AccountList:
     def AddAccount(self, account_id, balance):
         try:
             uuid.UUID(account_id)
-            if balance == 0:
-                raise Exception("Transaction amount cannot be 0")
             self.accounts.append(Account(account_id, balance))
             return True
         except ValueError:
@@ -29,4 +27,3 @@ class AccountList:
                 return account
 
 AccountList()
-AccountList().AddAccount('566944be-2dab-460b-b3ed-eeeebd8c5618', 100)
