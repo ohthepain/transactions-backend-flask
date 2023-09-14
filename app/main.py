@@ -1,5 +1,4 @@
 import uuid
-import jsonpickle
 from datetime import datetime
 from flask import Flask, render_template, request
 from flask_restx import Api, Resource, fields

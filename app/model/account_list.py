@@ -4,11 +4,8 @@ from .account import Account
 class AccountList:
     accounts = []
     def __new__(cls):
-        print('ctor: %s' % (__name__))
         if not hasattr(cls, 'instance'):
-            print('ctor: create singleton instance of %s' % (__name__))
             cls.instance = super(AccountList, cls).__new__(cls)
-        print('ctor: access singleton instance of %s' % (__name__))
         return cls.instance
 
     def AddAccount(self, account_id, balance):
