@@ -28,7 +28,7 @@ class PostTransactionResource(Resource):
         data = api.payload
         amount = data.get('amount')
         account_id = data.get('account_id')
-        if not amount or amount <= 0:
+        if not amount or amount == 0:
             return {'message': 'Mandatory body parameters missing or have incorrect type.'}, 400
         try:
             uuid.UUID(account_id)
