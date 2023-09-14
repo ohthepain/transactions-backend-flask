@@ -1,5 +1,4 @@
 import uuid
-import jsonpickle
 from datetime import datetime
 from model.transaction import Transaction
 from model.account_list import AccountList
@@ -42,7 +41,6 @@ class PostTransactionResource(Resource):
             account = AccountList().GetAccount(account_id)
 
         newTransaction = Transaction(account_id, amount)
-        print('newTransaction %s' % jsonpickle.encode(newTransaction))
         TransactionList().AddTransaction(newTransaction)
 
         # TODO: We do this last since this operation is the least likely to fail and we don't have time to implement transactions
@@ -53,8 +51,9 @@ class PostTransactionResource(Resource):
 
     @api.doc('list_transactions')
     @api.response(200, 'List of transactions')
+    @api.marshal_list_with(transaction)
     def get(self):
-        return jsonpickle.encode(TransactionList().GetTransactions()), 200
+        return TransactionList().GetTransactions(), 200
 
 @api.route('transaction/<transaction_id>')
 @api.param('transaction_id', 'Transaction id')
@@ -63,6 +62,7 @@ class PostTransactionResource(Resource):
 @api.response(404, 'Transaction not found')
 class GetTransaction(Resource):
     @api.doc('get_transaction')
+    @api.marshal_with(transaction)
     def get(self, transaction_id):
         try:
             uuid.UUID(transaction_id)
@@ -70,5 +70,5 @@ class GetTransaction(Resource):
             return {'message': "Mandatory body parameters missing or have incorrect type."}, 400
         transaction = TransactionList().GetTransaction(transaction_id)
         if transaction:
-            return jsonpickle.encode(transaction), 200
+            return transaction, 200
         return {'message': "Transaction not found"}, 404
